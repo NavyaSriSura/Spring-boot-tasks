@@ -1,9 +1,9 @@
 package com.stackroute.musixapp.service;
 
-import com.stackroute.musixapp.domain.Musix;
-import com.stackroute.musixapp.exceptions.TrackAlreadyExistsException;
-import com.stackroute.musixapp.exceptions.TrackNotFoundException;
-import com.stackroute.musixapp.repository.MusixRepository;
+import com.stackroute.musixapp.domain.Music;
+import com.stackroute.musixapp.exceptions.MusicAlreadyExistsException;
+import com.stackroute.musixapp.exceptions.MusicNotFoundException;
+import com.stackroute.musixapp.repository.MusicRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,53 +50,53 @@ public class MusixServiceTest {
     }
 
     @Test
-    public void saveTrackTestSuccess() throws TrackAlreadyExistsException {
+    public void saveMusicTestSuccess() throws MusicAlreadyExistsException {
 
-        when(musixRepository.save((Musix) any())).thenReturn(musix);
-        Musix savedTrack = musixService.saveNewMusix(musix);
-        assertEquals(musix,savedTrack);
+        when(musicRepository.save((Music) any())).thenReturn(music);
+        Music savedTrack = musicService.saveNewMusic(music);
+        assertEquals(music,savedMusic);
 
         //verify here verifies that userRepository save method is only called once
-        verify(musixRepository,times(1)).save(musix);
+        verify(musicRepository,times(1)).save(music);
 
     }
 
-    @Test(expected = TrackAlreadyExistsException.class)
-    public void saveMusixTestFailure() throws TrackAlreadyExistsException {
-        when(musixRepository.save((Musix) any())).thenReturn(null);
-        Musix savedMusix = musixService.saveNewMusix(musix);
-        System.out.println("savedUser" + savedMusix);
+    @Test(expected = MusicAlreadyExistsException.class)
+    public void saveMusicTestFailure() throws MusicAlreadyExistsException {
+        when(musicRepository.save((Music) any())).thenReturn(null);
+        Music savedMusic = musicService.saveNewMusic(music);
+        System.out.println("savedUser" + savedMusic);
     }
 
     @Test
-    public void testGetAllTracks() throws TrackNotFoundException{
+    public void testGetAllMusic() throws MusicNotFoundException{
 
-        musixRepository.save(musix);
+        musicRepository.save(musix);
         //stubbing the mock to return specific data
-        when(musixRepository.findAll()).thenReturn(list);
-        List<Musix> userlist = musixService.getMusix();
+        when(musicRepository.findAll()).thenReturn(list);
+        List<Music> userlist = musicService.getMusic();
         assertEquals(list,userlist);
     }
 
     @Test
-    public void deleteTrackTestSuccess() throws TrackAlreadyExistsException {
+    public void deleteMusicTestSuccess() throws MusidAlreadyExistsException {
 
-        musixRepository.delete(musix);
-        boolean deletedTrack=musixRepository.existsById(20);
-        assertEquals(false,deletedTrack);
+        musicRepository.delete(music);
+        boolean deletedMusic=musicRepository.existsById(20);
+        assertEquals(false,deletedMusic);
     }
 
     @Test
-    public void updateTrackTest() throws TrackNotFoundException
+    public void updateMusicTest() throws MusicNotFoundException
     {
-        when(musixRepository.save((Musix) any())).thenReturn(musix);
-        Musix updateTrack = null;
+        when(musicRepository.save((Music) any())).thenReturn(music);
+        Music updateMusic = null;
         try {
-            updateTrack = musixService.saveNewMusix(musix);
-        } catch (TrackAlreadyExistsException e) {
+            updateMusic = musicService.saveNewMusic(music);
+        } catch (MusicAlreadyExistsException e) {
             e.printStackTrace();
         }
-        assertEquals(musix,updateTrack);
+        assertEquals(music,updateMusic);
     }
 
 
